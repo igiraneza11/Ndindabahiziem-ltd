@@ -19,7 +19,7 @@ function Footer() {
               Your trusted partner for comprehensive maintenance and construction services. 
               We specialize in electrical installations, refrigeration, construction, and more.
             </p>
-            <div className="flex space-x-4">
+            {/* <div className="flex space-x-4">
               <a href="https://x.com/home?lang=en" className="text-gray-300 hover:text-white transition-colors">
                 <FaTwitter size={20} />
               </a>
@@ -29,7 +29,7 @@ function Footer() {
               <a href="https://www.instagram.com/bahizi_11/?next=%2F" className="text-gray-300 hover:text-white transition-colors">
                 <FaInstagram size={20} />
               </a>
-            </div>
+            </div> */}
           </div>
 
           {/* Services */}

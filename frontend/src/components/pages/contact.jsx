@@ -222,7 +222,6 @@ function Contact() {
                   <div>
                     <h3 className="text-lg font-semibold text-gray-800 mb-1">Phone</h3>
                     <p className="text-gray-600">+250 782 177 952</p>
-                    <p className="text-gray-600">+250 784 942 894</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
@@ -232,7 +231,6 @@ function Contact() {
                   <div>
                     <h3 className="text-lg font-semibold text-gray-800 mb-1">Email</h3>
                     <p className="text-gray-600">bahizem@gmail.com</p>
-                    <p className="text-gray-600">igiranezashalom9@gmail.com</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
@@ -246,7 +244,7 @@ function Contact() {
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
-                  <div className="bg-blue-100 p-3 rounded-full">
+                  {/* <div className="bg-blue-100 p-3 rounded-full">
                     <FaClock className="text-blue-600 text-xl" />
                   </div>
                   <div>
@@ -262,7 +260,7 @@ function Contact() {
                 <FaInstagram size={20} />
               </a>
             </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

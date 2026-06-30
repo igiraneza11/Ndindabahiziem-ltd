@@ -18,7 +18,7 @@ function Navbar() {
           <li className="hover:underline"><Link to={'/'}> Home</Link></li>
           <li className="hover:underline"><Link to={'about'}> About</Link></li>
           <li className="hover:underline"><Link to={'service'}> Services</Link></li>
-          <li className="hover:underline"><Link to={'certificates'}> Certification</Link></li>
+          {/* <li className="hover:underline"><Link to={'certificates'}> Certification</Link></li> */}
           <li className="hover:underline"><Link to={'contact'}> Contact</Link></li>
           <li className="hover:underline"><Link to={'faq'}> Faq</Link></li>
         </ul>

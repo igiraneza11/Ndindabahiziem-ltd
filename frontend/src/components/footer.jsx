@@ -85,7 +85,7 @@ function Footer() {
         <div className="container mx-auto px-6 py-4">
           <div className="flex flex-col md:flex-row justify-center items-center text-sm text-gray-300">
             <div>
-              © 2025 NDINDABAHIZIEM LTD. All rights reserved.
+              © 2026 NDINDABAHIZIEM LTD. All rights reserved.
             </div>
           </div>
         </div>

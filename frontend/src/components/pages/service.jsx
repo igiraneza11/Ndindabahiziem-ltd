@@ -5,26 +5,17 @@ function Service() {
     <div>
             <section className="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-16">
         <div className="container mx-auto px-6">
-          <div className="text-center">
+          <div className="text-center mx">
             <h1 className="text-4xl font-bold mb-4">Our Service</h1>
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+            <p className="text-xl text-blue-100 max-w-6xl mx-auto">
 As RDB clearance certificate, our main business activity is basing on Repair of consumer electronics
 but also covering and focusing tother business activities such as:
- Repair of machinery
-, Electric power generation, transmission and distribution
-, Construction of buildings
-, Construction of other civil engineering projects
-, Site preparation
-, Painting
-, Treatment of drinking water
-, Electrical installation
-, Plumbing, heat and air-conditioning installation
-, Other construction installation
-, CCTV Cameras and security issues
-, Other specialized construction activities
-, Whole sale of construction materials, hardware, plumbing and heating equipment and 
-supplies.
-, Retail sale of electrical households’ appliances, furniture, lighting equipment and other 
+ Repair of machinery, Electric power generation, transmission and distribution, Construction of buildings, Construction of other civil engineering projects,
+ Site preparation, Painting, Treatment of drinking water, Electrical installation,
+ Plumbing, heat and air-conditioning installation, Other construction installation, CCTV Cameras and security issues,
+ Other specialized construction activities,
+ Whole sale of construction materials, hardware, plumbing and heating equipment and 
+supplies, Retail sale of electrical households’ appliances, furniture, lighting equipment and other 
 households’ articles in specialized stores.
 Simply and detailed meaning, it complies with Mechanical, Electrical and Plumbing Services (MEP):            </p>
           </div>

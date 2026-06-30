@@ -1,5 +1,8 @@
 import React from 'react';
-import { FaUsers, FaAward, FaHandshake, FaTools } from 'react-icons/fa';
+import { FaUsers, FaAward, FaHandshake, FaTools, FaBuffer } from 'react-icons/fa';
+import { FaBusinessTime } from "react-icons/fa6";
+import { MdVerifiedUser } from "react-icons/md";
+
 
 export default function About() {
   return (
@@ -95,12 +98,11 @@ Performance and Reliability in Electro Mechanical works in the global market.
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FaTools className="text-blue-600 text-2xl" />
+                <FaBusinessTime className="text-blue-600 text-2xl" />
               </div>
               <h3 className="text-xl font-semibold text-gray-800 mb-3">Displine</h3>
               <p className="text-gray-600">
-                We maintain the highest standards in all our services, ensuring quality workmanship 
-                and reliable results.
+                We follow proven processes and timelines on every job, showing up on time and finishing what we start.
               </p>
             </div>
                         <div className="text-center">
@@ -115,22 +117,20 @@ Performance and Reliability in Electro Mechanical works in the global market.
             </div>
                         <div className="text-center">
               <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FaTools className="text-blue-600 text-2xl" />
+                <FaBuffer className="text-blue-600 text-2xl" />
               </div>
               <h3 className="text-xl font-semibold text-gray-800 mb-3">Patriotism</h3>
               <p className="text-gray-600">
-                We maintain the highest standards in all our services, ensuring quality workmanship 
-                and reliable results.
+                We take pride in serving our community and supporting local growth in everything we build and repair.
               </p>
             </div>
                         <div className="text-center">
               <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FaTools className="text-blue-600 text-2xl" />
+                <MdVerifiedUser className="text-blue-600 text-2xl" />
               </div>
               <h3 className="text-xl font-semibold text-gray-800 mb-3">Quality</h3>
               <p className="text-gray-600">
-                We maintain the highest standards in all our services, ensuring quality workmanship 
-                and reliable results.
+                Every detail is checked and double-checked, so the work we hand back holds up long after we leave.
               </p>
             </div>
             <div className="text-center">

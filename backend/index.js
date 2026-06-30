@@ -135,7 +135,7 @@ app.post('/api/contact', async (req, res) => {
                   <p style="margin: 5px 0; font-weight: bold; color: #1e293b;">+250 782 177 952</p>
                 </div>
                 <div style="text-align: center;">
-                  <p style="margin: 5px 0; font-weight: bold; color: #1e293b;">+250 793 754 490</p>
+                  <p style="margin: 5px 0; font-weight: bold; color: #1e293b;">+250 784 942 894</p>
                 </div>
               </div>
             </div>
@@ -143,7 +143,7 @@ app.post('/api/contact', async (req, res) => {
           
           <div style="background-color: #1e293b; padding: 20px; text-align: center;">
             <p style="color: #94a3b8; margin: 0; font-size: 14px;">
-              <strong>Ndinda Bahizi EML Ltd</strong><br>
+              <strong>Ndindabahiziem Ltd</strong><br>
               Medical Equipment Supply & Maintenance | Electrical Installations | Construction<br>
               Kigali, Rwanda | Email: ndindabahiziemltd@gmail.com
             </p>

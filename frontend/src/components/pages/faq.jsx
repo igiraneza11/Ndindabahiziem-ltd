@@ -243,24 +243,7 @@ function FAQ() {
                 <FaTools className="text-blue-600 text-2xl" />
               </div>
               <h3 className="text-xl font-semibold text-gray-800 mb-2">Email Support</h3>
-              <p className="text-gray-600">bahizem@gmail.com</p>
-            </div>
-            <div className="text-center">
-              <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FaBuilding className="text-blue-600 text-2xl" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Social Media</h3>
-              <div className="flex space-x-2 justify-center">
-                            <a href="https://x.com/home?lang=en" className="text-blue-500 hover:text-gray transition-colors">
-                              <FaTwitter size={20} />
-                            </a>
-                            <a href="https://www.facebook.com/bahizi11" className="text-blue-500 hover:text-gray transition-colors">
-                              <FaFacebook size={20} />
-                            </a>
-                            <a href="https://www.instagram.com/bahizi_11/?next=%2F" className="text-blue-500 hover:text-gray transition-colors">
-                              <FaInstagram size={20} />
-                            </a>
-                          </div>
+              <p className="text-gray-600">bahizema@gmail.com</p>
             </div>
           </div>
         </div>

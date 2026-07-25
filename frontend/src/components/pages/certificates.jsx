@@ -1,24 +1,23 @@
 import React from "react";
+
 import {
-  Building2,
+  Snowflake,
+  Wrench,
+  Flame,
   ShieldCheck,
+  Building2,
+  Zap,
+  Package,
+  Cog,
   FileText,
   Phone,
-  Wrench,
   CheckCircle2,
-  Mail,
-  MapPin,
   Landmark,
   BadgeCheck,
-  GraduationCap,
-  Snowflake,
-  Flame,
-  Sparkles,
 } from "lucide-react";
 
- 
 const navLinks = ["Home", "About", "Projects", "Certifications", "Compliance", "Contact"];
- 
+
 const completedProjects = [
   {
     client: "Rwanda Forensic Laboratory",
@@ -46,7 +45,7 @@ const completedProjects = [
     year: "2022",
   },
 ];
- 
+
 const statutoryCertifications = [
   {
     icon: Landmark,
@@ -66,87 +65,132 @@ const statutoryCertifications = [
   {
     icon: BadgeCheck,
     title: "RRA Tax Clearance",
-    desc: "Rwanda Revenue Authority certifies no outstanding tax debt owed to the office. TIN 105460356, valid 29 Jun 2022 – 27 Sep 2022.",
+    desc: "Rwanda Revenue Authority certifies no outstanding tax debt owed to the office. TIN 105460356",
   },
 ];
 
-const academicCertifications = [
-  {
-    icon: GraduationCap,
-    title: "Diploma — Technology: Electrical Option",
-    desc: "Kigali Institute of Science and Technology (KIST). Awarded with Credit to Emmanuel Ndindabahizi, 24 March 2011.",
-  },
-  {
-    icon: GraduationCap,
-    title: "Diploma — Electrical & Electronics Engineering",
-    desc: "IPRC Kicukiro College of Technology. Biomedical Equipment Technology option, awarded with Distinction, 27 March 2014.",
-  },
-  {
-    icon: GraduationCap,
-    title: "BSc (Hons) Electronics & Telecommunications Engineering",
-    desc: "University of Rwanda, College of Science and Technology. Second Class Honours, Lower Division, 25 August 2017.",
-  },
-];
- 
 const completionCertifications = [
   {
-    icon: Snowflake,
     title: "RFL — Fridges & Freezers Maintenance",
-    desc: "Rwanda Forensic Laboratory, Contract N° 02-000004/NC/NCB/2018/2019/RFL, Lot 3. Executed successfully for period 2018/2019.",
+    organization: "Rwanda Forensic Laboratory",
+    contract: "02-000004/NC/NCB/2018/2019/RFL",
+    desc: "Lot 3. Executed successfully for period 2018/2019.",
+    icon: Snowflake,
   },
   {
-    icon: Snowflake,
     title: "RFL — Fridges & Freezers Maintenance",
-    desc: "Rwanda Forensic Laboratory, Contract N° 02-000004/NC/NCB/2018/2019/RFL, Lot 3. Executed successfully for period 2019/2020.",
+    organization: "Rwanda Forensic Laboratory",
+    contract: "01-000004/NC/NCB/2018/2019/RFL",
+    desc: "Lot 3. Executed successfully for period 2019/2020.",
+    icon: Snowflake,
   },
   {
-    icon: Snowflake,
     title: "RFL — Fridges & Freezers Maintenance",
-    desc: "Rwanda Forensic Laboratory, Contract N° 02-000004/NC/NCB/2018/2019/RFL, Lot 3. Executed successfully for period 2020/2021.",
+    organization: "Rwanda Forensic Laboratory",
+    contract: "00-000004/NC/NCB/2018/2019/RFL",
+    desc: "Lot 3. Executed successfully for period 2020/2021.",
+    icon: Snowflake,
   },
   {
-    icon: Wrench,
     title: "RNP — Air Conditioner Maintenance",
-    desc: "Rwanda National Police, Contract N° 00-000004/NC/2021/2022/RNP, Lot 1. Framework agreement signed 23 May 2022, first year executed.",
+    organization: "Rwanda National Police",
+    contract: "00-000004/NC/NCB/2021/2022/RNP",
+    desc: "Framework agreement signed 2022 - 2025.",
+    icon: Wrench,
   },
   {
+    title: "RFL — Firefighting & Air-Sucking Equipment",
+    organization: "Rwanda Forensic Institute",
+    contract: "00-000012/NC/NCB/2022/2023/RFL",
+    desc: "Lot 5. Closed 2023 - 2026.",
     icon: Flame,
-    title: "RFI — Firefighting & Air-Sucking Equipment",
-    desc: "Rwanda Forensic Institute, Contract N° 00-000012/NC/NCB/2022/2023/RFL, Lot 5. Purchase order worth 15,611,400 RWF, closed 2023.",
   },
   {
-    icon: Sparkles,
-    title: "RFI — Nitrogen Generator Maintenance",
-    desc: "Rwanda Forensic Institute, Contract N° 00-000017/NC/NCB/2022/2023/RFL, Lot 6. Preventive maintenance, worth 10,242,400 RWF, closed 2023.",
+    title: "RFL — Nitrogen Generator Maintenance",
+    organization: "Rwanda Forensic Institute",
+    contract: "00-000017/NC/NCB/2022/2023/RFL",
+    desc: "Lot 6. Preventive maintenance 2023 - 2025.",
+    icon: ShieldCheck,
   },
   {
-    icon: Building2,
     title: "RSB — Supply of Office Furniture",
-    desc: "Rwanda Standards Board, Contract N° 000011/G/NCB/2023/2024/RSB. Signed 22 Apr 2024, worth 19,304,800 RWF, closed 21 May 2024.",
+    organization: "Rwanda Standards Board",
+    contract: "000011/G/NCB/2023/2024/RSB",
+    desc: "Signed 22 Apr 2024, closed 21 May 2024.",
+    icon: Building2,
   },
   {
+    title: "RSB — ACs, Fridges, Freezers & Cold Rooms",
+    organization: "Rwanda Standards Board",
+    contract: "000012/NC/NCB/2021/2022/RSB",
+    desc: "Framework contract. Signed 07 Sep 2022, closed 06 Sep 2023.",
     icon: Snowflake,
-    title: "RSB — ACs, Fridges, Freezers & Cold-Rooms",
-    desc: "Rwanda Standards Board, framework Contract N° 000012/NC/NCB/2021/2022/RSB, Lot 1. Signed 07 Sep 2022, closed 06 Sep 2023.",
+  },
+  {
+    title: "RCS — Electricity Power System",
+    organization: "Rwanda Correctional Services",
+    contract: "00-000015/NC/NCB/2025/2026/RCS",
+    desc: "Lightning conductors. Signed Apr 2026.",
+    icon: Zap,
+  },
+  {
+    title: "RFI — Peak Scientific Nitrogen Generator",
+    organization: "Rwanda Forensic Institute",
+    contract: "00-000015/NC/NCB/2025/2026/RFI",
+    desc: "Preventive maintenance services 2026 - 2027.",
+    icon: ShieldCheck,
+  },
+  {
+    title: "RNP — Reefer Container Spare Parts",
+    organization: "Rwanda National Police",
+    contract: "01-000007/G/NCB/2025/2026/RNP",
+    desc: "Supply of spare parts for reefer containers.",
+    icon: Package,
+  },
+  {
+    title: "RNP — Construction Materials",
+    organization: "Rwanda National Police",
+    contract: "01-000003/G/NCB/2024/2025/RNP",
+    desc: "Supply of construction materials for maintenance.",
+    icon: Building2,
+  },
+  {
+    title: "RNP — FPU Re-launch Requirements",
+    organization: "Rwanda National Police",
+    contract: "02-000014/G/NCB/2024/2025/RNP",
+    desc: "Acquisition of different requirements for new generated FPU re-launch.",
+    icon: Cog,
+  },
+  {
+    title: "RFL — Biology Equipment Maintenance",
+    organization: "Rwanda Forensic Laboratory",
+    contract: "02-000012/NC/NCB/2022/2023/RFI",
+    desc: "Preventive and curative maintenance of biology equipment.",
+    icon: Cog,
+  },
+  {
+    title: "RSB — Electrical Installations",
+    organization: "Rwanda Standards Board",
+    contract: "01-000023/NC/NCB/2022/2023/RSB",
+    desc: "Maintenance and repair of electrical installations and equipment.",
+    icon: Zap,
   },
 ];
- 
+
 const complianceDocs = [
   { label: "RDB Registration", value: "Code 105460356 · Registered 08 Mar 2016" },
   { label: "VAT Certificate", value: "Certificate No. 003906935 · Effective 03 Oct 2019" },
   { label: "RSSB Clearance", value: "Employer No. 3112828000000K · No arrears" },
   { label: "RRA Tax Clearance", value: "TIN 105460356 · No outstanding debt" },
 ];
- 
+
 const referees = [
   { name: "Lt. Col. Dr. Charles Karangwa", role: "Director General & CBM, Rwanda Forensic Laboratory", phone: "0788 634 679" },
   { name: "Kagaba Alexis", role: "Contract Manager, Rwanda Forensic Laboratory", phone: "0788 850 685" },
   { name: "Vincent Sano", role: "Chief Budget Manager, Rwanda National Police", phone: "0788 311 521" },
   { name: "Butera", role: "Procurement Specialist, Rwanda National Police", phone: "0788 312 381" },
 ];
- 
 
- 
 function CertCard({ icon: Icon, title, desc }) {
   return (
     <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
@@ -160,11 +204,15 @@ function CertCard({ icon: Icon, title, desc }) {
     </div>
   );
 }
- 
+
 function CertGroup({ eyebrow, title, subtitle, items }) {
   return (
     <div className="mb-16 last:mb-0">
-      <p className="text-center text-xs font-bold uppercase tracking-widest text-blue-600">{eyebrow}</p>
+      {eyebrow && (
+        <p className="text-center text-xs font-bold uppercase tracking-widest text-blue-600">
+          {eyebrow}
+        </p>
+      )}
       <h3 className="mt-2 text-center text-2xl sm:text-3xl font-extrabold text-slate-900">{title}</h3>
       {subtitle && (
         <p className="mt-3 text-center text-slate-600 max-w-2xl mx-auto">{subtitle}</p>
@@ -177,11 +225,10 @@ function CertGroup({ eyebrow, title, subtitle, items }) {
     </div>
   );
 }
- 
+
 function Certificate() {
-  const totalCerts =
-    statutoryCertifications.length + academicCertifications.length + completionCertifications.length;
- 
+  const totalCerts = statutoryCertifications.length + completionCertifications.length;
+
   return (
     <div className="font-sans">
       {/* Hero Section */}
@@ -190,54 +237,14 @@ function Certificate() {
           <div className="text-center">
             <h1 className="text-4xl font-bold mb-4">Track Record & Credentials</h1>
             <p className="text-xl text-blue-100 max-w-3xl mx-auto">
-              Our dedicated team of professionals brings together years of experience and expertise in electro-mechanical, 
+              Our dedicated team of professionals brings together years of experience and expertise in electro-mechanical,
               construction and maintenance services across Rwanda.
             </p>
           </div>
         </div>
       </section>
- 
-      {/* ---------------- PROJECTS ---------------- */}
-      <section id="projects" className="bg-slate-50 px-6 py-20">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-center text-3xl sm:text-4xl font-extrabold text-slate-900">Completed Projects</h2>
-          <p className="mt-4 text-center text-slate-600 max-w-2xl mx-auto">
-            A track record of executed contracts with national institutions.
-          </p>
- 
-          <div className="mt-12 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="bg-blue-600">
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-white">Client</th>
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-white hidden md:table-cell">Scope of Work</th>
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-white text-right">Year</th>
-                </tr>
-              </thead>
-              <tbody>
-                {completedProjects.map((p, i) => (
-                  <tr key={i} className="border-t border-slate-100">
-                    <td className="px-6 py-4 align-top">
-                      <div className="flex items-center gap-2">
-                        <Building2 className="h-4 w-4 text-blue-600 shrink-0" />
-                        <span className="font-semibold text-sm text-slate-900">{p.client}</span>
-                      </div>
-                      <p className="mt-1 text-xs text-slate-500 md:hidden">{p.scope}</p>
-                    </td>
-                    <td className="px-6 py-4 align-top text-sm text-slate-600 hidden md:table-cell">{p.scope}</td>
-                    <td className="px-6 py-4 align-top text-right">
-                      <span className="inline-block rounded-full bg-blue-100 px-3 py-1 text-xs font-bold text-blue-700">
-                        {p.year}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
- 
+
+
       {/* ---------------- CERTIFICATIONS (ALL) ---------------- */}
       <section id="certifications" className="px-6 py-20">
         <div className="max-w-6xl mx-auto">
@@ -247,21 +254,17 @@ function Certificate() {
             statutory registration, professional qualifications and client-issued completion
             certificates.
           </p>
- 
+
           <div className="mt-14">
             <CertGroup
-              title="Statutory &amp; Compliance Certificates"
+              eyebrow="Compliance"
+              title="Statutory & Compliance Certificates"
               subtitle="Registration and clearance certificates on file with Rwandan authorities."
               items={statutoryCertifications}
             />
- 
+
             <CertGroup
-              title="Academic &amp; Professional Credentials"
-              subtitle="Engineering qualifications held by the company's founder and Managing Director."
-              items={academicCertifications}
-            />
- 
-            <CertGroup
+              eyebrow="Delivered Work"
               title="Certificates of Good Completion"
               subtitle="Issued by client institutions confirming successful execution of each contract."
               items={completionCertifications}
@@ -269,7 +272,7 @@ function Certificate() {
           </div>
         </div>
       </section>
- 
+
       {/* ---------------- COMPLIANCE SUMMARY ---------------- */}
       <section id="compliance" className="bg-slate-50 px-6 py-20">
         <div className="max-w-6xl mx-auto">
@@ -277,7 +280,7 @@ function Certificate() {
           <p className="mt-4 text-center text-slate-600 max-w-2xl mx-auto">
             Quick-reference summary of the statutory documents above.
           </p>
- 
+
           <div className="mt-12 grid gap-4 sm:grid-cols-2">
             {complianceDocs.map((d, i) => (
               <div
@@ -296,7 +299,7 @@ function Certificate() {
           </div>
         </div>
       </section>
- 
+
       {/* ---------------- REFEREES ---------------- */}
       <section id="contact" className="px-6 py-20">
         <div className="max-w-6xl mx-auto">
@@ -304,28 +307,25 @@ function Certificate() {
           <p className="mt-4 text-center text-slate-600 max-w-2xl mx-auto">
             Reach us directly, or speak to a client reference named below.
           </p>
- 
-          <div className="mt-12 grid gap-8 lg:grid-cols-2">
-            {/* referees */}
-            <div className="space-y-4">
-              {referees.map((r, i) => (
-                <div
-                  key={i}
-                  className="flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
-                >
-                  <div>
-                    <p className="font-semibold text-slate-900">{r.name}</p>
-                    <p className="text-xs text-slate-500">{r.role}</p>
-                  </div>
-                  <a
-                    href={`tel:${r.phone.replace(/\s/g, "")}`}
-                    className="flex items-center gap-1.5 rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-700 transition-colors shrink-0"
-                  >
-                    <Phone className="h-3.5 w-3.5" /> {r.phone}
-                  </a>
+
+          <div className="mt-12 grid gap-4 sm:grid-cols-2">
+            {referees.map((r, i) => (
+              <div
+                key={i}
+                className="flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
+              >
+                <div>
+                  <p className="font-semibold text-slate-900">{r.name}</p>
+                  <p className="text-xs text-slate-500">{r.role}</p>
                 </div>
-              ))}
-            </div>
+                <a
+                  href={`tel:${r.phone.replace(/\s/g, "")}`}
+                  className="flex items-center gap-1.5 rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-700 transition-colors shrink-0"
+                >
+                  <Phone className="h-3.5 w-3.5" /> {r.phone}
+                </a>
+              </div>
+            ))}
           </div>
         </div>
       </section>

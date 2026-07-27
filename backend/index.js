@@ -9,7 +9,10 @@ const port = process.env.PORT || 5000;
 
 // Middleware
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+    origin: '*', // Adjust this to your frontend's URL
+    credentials: true
+}));
 
 // Email transporter configuration
 const transporter = nodemailer.createTransport({

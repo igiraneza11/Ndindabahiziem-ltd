@@ -244,23 +244,7 @@ function Contact() {
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
-                  {/* <div className="bg-blue-100 p-3 rounded-full">
-                    <FaClock className="text-blue-600 text-xl" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-1">Our Social media</h3>
-            <div className="flex space-x-4">
-              <a href="https://x.com/home?lang=en" className="text-blue-500 hover:text-gray transition-colors">
-                <FaTwitter size={20} />
-              </a>
-              <a href="https://www.facebook.com/bahizi11" className="text-blue-500 hover:text-gray transition-colors">
-                <FaFacebook size={20} />
-              </a>
-              <a href="https://www.instagram.com/bahizi_11/?next=%2F" className="text-blue-500 hover:text-gray transition-colors">
-                <FaInstagram size={20} />
-              </a>
-            </div>
-                  </div> */}
+                
                 </div>
               </div>
             </div>

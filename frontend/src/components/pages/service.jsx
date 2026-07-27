@@ -2,7 +2,7 @@ import React from 'react'
 
 function Service() {
   return (
-    <div>
+    <div id="services">
             <section className="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-16">
         <div className="container mx-auto px-6">
           <div className="text-center mx">

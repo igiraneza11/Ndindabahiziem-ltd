@@ -162,6 +162,20 @@ const completionCertifications = [
     icon: Cog,
   },
   {
+    title: "RNP — SUPPLY OF DIFFERENT CONTAINERS",
+    organization: "Rwanda National Police",
+    contract: "02-000014/G/NCB/2024/2025/RNP",
+    desc: "Acquisition of different requirements for new generated FPU re-launch.",
+    icon: Cog,
+  },
+  {
+    title: "RNP — 	SUPPLY OF MOBILE TOILETS",
+    organization: "Rwanda National Police",
+    contract: "01-000014/G/NCB/2024/2025/RNP",
+    desc: "Acquisition of different requirements for new generated FPU re-launch.",
+    icon: Cog,
+  },
+  {
     title: "RFL — Biology Equipment Maintenance",
     organization: "Rwanda Forensic Laboratory",
     contract: "02-000012/NC/NCB/2022/2023/RFI",

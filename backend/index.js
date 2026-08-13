@@ -54,7 +54,7 @@ app.post('/api/contact', async (req, res) => {
     // Email content for the owner
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: 'igiranezashalom9@gmail.com, ndindabahiziemltd@gmail.com',// Direct email to specified address
+      to: 'igiranezashalom9@gmail.com',// Direct email to specified address
       subject: `New Contact Form Submission - ${service || 'General Inquiry'}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -99,7 +99,7 @@ app.post('/api/contact', async (req, res) => {
     const thankYouMailOptions = {
       from: process.env.EMAIL_USER,
       to: email,
-      subject: 'Thank You for Contacting Us - Ndinda Bahizi EML Ltd',
+      subject: 'Thank You for Contacting Us - Ndindabahiziem Ltd',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f8fafc;">
           <div style="background: linear-gradient(135deg, #2563eb, #1d4ed8); padding: 30px; text-align: center;">
@@ -148,7 +148,7 @@ app.post('/api/contact', async (req, res) => {
             <p style="color: #94a3b8; margin: 0; font-size: 14px;">
               <strong>Ndindabahiziem Ltd</strong><br>
               Medical Equipment Supply & Maintenance | Electrical Installations | Construction<br>
-              Kigali, Rwanda | Email: ndindabahiziemltd@gmail.com
+              Kigali, Rwanda | Email: bahizema@gmail.com
             </p>
           </div>
         </div>

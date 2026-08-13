@@ -1,20 +1,19 @@
 import React from "react";
-
 import {
-  Snowflake,
-  Wrench,
-  Flame,
-  ShieldCheck,
-  Building2,
-  Zap,
-  Package,
-  Cog,
-  FileText,
-  Phone,
-  CheckCircle2,
-  Landmark,
-  BadgeCheck,
-} from "lucide-react";
+  FaSnowflake,
+  FaWrench,
+  FaFireAlt,
+  FaShieldAlt,
+  FaBuilding,
+  FaBolt,
+  FaBox,
+  FaCog,
+  FaFileAlt,
+  FaPhone,
+  FaCheckCircle,
+  FaLandmark,
+  FaCertificate,
+} from "react-icons/fa";
 
 const navLinks = ["Home", "About", "Projects", "Certifications", "Compliance", "Contact"];
 
@@ -48,22 +47,22 @@ const completedProjects = [
 
 const statutoryCertifications = [
   {
-    icon: Landmark,
+    icon: FaLandmark,
     title: "RDB Business Registration",
     desc: "Certificate of Domestic Company Registration, Company Code 105460356. Registered 08 March 2016 as a private company limited by shares, Ndera, Gasabo, Kigali.",
   },
   {
-    icon: FileText,
+    icon: FaFileAlt,
     title: "VAT Certificate",
     desc: "Registered for Value Added Tax with Rwanda Revenue Authority. Registration No. 105460356, effective 03 October 2019, Certificate No. 003906935.",
   },
   {
-    icon: ShieldCheck,
+    icon: FaShieldAlt,
     title: "RSSB Contributions Clearance",
     desc: "Rwanda Social Security Board certifies no outstanding contribution arrears. Employer No. 3112828000000K, valid 29 Jun 2022 – 31 Jul 2022.",
   },
   {
-    icon: BadgeCheck,
+    icon: FaCertificate,
     title: "RRA Tax Clearance",
     desc: "Rwanda Revenue Authority certifies no outstanding tax debt owed to the office. TIN 105460356",
   },
@@ -75,119 +74,119 @@ const completionCertifications = [
     organization: "Rwanda Forensic Laboratory",
     contract: "02-000004/NC/NCB/2018/2019/RFL",
     desc: "Lot 3. Executed successfully for period 2018/2019.",
-    icon: Snowflake,
+    icon: FaSnowflake,
   },
   {
     title: "RFL — Fridges & Freezers Maintenance",
     organization: "Rwanda Forensic Laboratory",
     contract: "01-000004/NC/NCB/2018/2019/RFL",
     desc: "Lot 3. Executed successfully for period 2019/2020.",
-    icon: Snowflake,
+    icon: FaSnowflake,
   },
   {
     title: "RFL — Fridges & Freezers Maintenance",
     organization: "Rwanda Forensic Laboratory",
     contract: "00-000004/NC/NCB/2018/2019/RFL",
     desc: "Lot 3. Executed successfully for period 2020/2021.",
-    icon: Snowflake,
+    icon: FaSnowflake,
   },
   {
     title: "RNP — Air Conditioner Maintenance",
     organization: "Rwanda National Police",
     contract: "00-000004/NC/NCB/2021/2022/RNP",
     desc: "Framework agreement signed 2022 - 2025.",
-    icon: Wrench,
+    icon: FaWrench,
   },
   {
     title: "RFL — Firefighting & Air-Sucking Equipment",
     organization: "Rwanda Forensic Institute",
     contract: "00-000012/NC/NCB/2022/2023/RFL",
     desc: "Lot 5. Closed 2023 - 2026.",
-    icon: Flame,
+    icon: FaFireAlt,
   },
   {
     title: "RFL — Nitrogen Generator Maintenance",
     organization: "Rwanda Forensic Institute",
     contract: "00-000017/NC/NCB/2022/2023/RFL",
     desc: "Lot 6. Preventive maintenance 2023 - 2025.",
-    icon: ShieldCheck,
+    icon: FaShieldAlt,
   },
   {
     title: "RSB — Supply of Office Furniture",
     organization: "Rwanda Standards Board",
     contract: "000011/G/NCB/2023/2024/RSB",
     desc: "Signed 22 Apr 2024, closed 21 May 2024.",
-    icon: Building2,
+    icon: FaBuilding,
   },
   {
     title: "RSB — ACs, Fridges, Freezers & Cold Rooms",
     organization: "Rwanda Standards Board",
     contract: "000012/NC/NCB/2021/2022/RSB",
     desc: "Framework contract. Signed 07 Sep 2022, closed 06 Sep 2023.",
-    icon: Snowflake,
+    icon: FaSnowflake,
   },
   {
     title: "RCS — Electricity Power System",
     organization: "Rwanda Correctional Services",
     contract: "00-000015/NC/NCB/2025/2026/RCS",
     desc: "Lightning conductors. Signed Apr 2026.",
-    icon: Zap,
+    icon: FaBolt,
   },
   {
     title: "RFI — Peak Scientific Nitrogen Generator",
     organization: "Rwanda Forensic Institute",
     contract: "00-000015/NC/NCB/2025/2026/RFI",
     desc: "Preventive maintenance services 2026 - 2027.",
-    icon: ShieldCheck,
+    icon: FaShieldAlt,
   },
   {
     title: "RNP — Reefer Container Spare Parts",
     organization: "Rwanda National Police",
     contract: "01-000007/G/NCB/2025/2026/RNP",
     desc: "Supply of spare parts for reefer containers.",
-    icon: Package,
+    icon: FaBox,
   },
   {
     title: "RNP — Construction Materials",
     organization: "Rwanda National Police",
     contract: "01-000003/G/NCB/2024/2025/RNP",
     desc: "Supply of construction materials for maintenance.",
-    icon: Building2,
+    icon: FaBuilding,
   },
   {
     title: "RNP — FPU Re-launch Requirements",
     organization: "Rwanda National Police",
     contract: "02-000014/G/NCB/2024/2025/RNP",
     desc: "Acquisition of different requirements for new generated FPU re-launch.",
-    icon: Cog,
+    icon: FaCog,
   },
   {
     title: "RNP — SUPPLY OF DIFFERENT CONTAINERS",
     organization: "Rwanda National Police",
     contract: "02-000014/G/NCB/2024/2025/RNP",
     desc: "Acquisition of different requirements for new generated FPU re-launch.",
-    icon: Cog,
+    icon: FaCog,
   },
   {
     title: "RNP — 	SUPPLY OF MOBILE TOILETS",
     organization: "Rwanda National Police",
     contract: "01-000014/G/NCB/2024/2025/RNP",
     desc: "Acquisition of different requirements for new generated FPU re-launch.",
-    icon: Cog,
+    icon: FaCog,
   },
   {
     title: "RFL — Biology Equipment Maintenance",
     organization: "Rwanda Forensic Laboratory",
     contract: "02-000012/NC/NCB/2022/2023/RFI",
     desc: "Preventive and curative maintenance of biology equipment.",
-    icon: Cog,
+    icon: FaCog,
   },
   {
     title: "RSB — Electrical Installations",
     organization: "Rwanda Standards Board",
     contract: "01-000023/NC/NCB/2022/2023/RSB",
     desc: "Maintenance and repair of electrical installations and equipment.",
-    icon: Zap,
+    icon: FaBolt,
   },
 ];
 
@@ -302,7 +301,7 @@ function Certificate() {
                 className="flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
               >
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-100">
-                  <CheckCircle2 className="h-5 w-5 text-blue-600" />
+                  <FaCheckCircle className="h-5 w-5 text-blue-600" />
                 </div>
                 <div>
                   <p className="font-semibold text-slate-900">{d.label}</p>
@@ -336,7 +335,7 @@ function Certificate() {
                   href={`tel:${r.phone.replace(/\s/g, "")}`}
                   className="flex items-center gap-1.5 rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-700 transition-colors shrink-0"
                 >
-                  <Phone className="h-3.5 w-3.5" /> {r.phone}
+                  <FaPhone className="h-3.5 w-3.5" /> {r.phone}
                 </a>
               </div>
             ))}

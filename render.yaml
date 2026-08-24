@@ -12,9 +12,9 @@ services:
         value: smtp.gmail.com
       - key: EMAIL_PORT
         value: "587"
-      - key: EMAIL_USER
-        sync: false
-      - key: EMAIL_PASS
-        sync: false
       - key: OWNER_EMAIL
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: EMAIL_FROM
         sync: false

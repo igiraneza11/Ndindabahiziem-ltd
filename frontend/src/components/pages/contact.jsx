@@ -39,7 +39,11 @@ function Contact() {
         (import.meta.env.PROD
           ? 'https://ndindabahiziem-backend.onrender.com'
           : 'http://localhost:5000');
-      const response = await axios.post(`${apiBase}/api/contact`, formData);
+
+      // Free Render apps sleep when idle; first request can take ~30–60s.
+      const response = await axios.post(`${apiBase}/api/contact`, formData, {
+        timeout: 60000,
+      });
       
       if (response.data.success) {
         setSubmitStatus('success');
@@ -57,7 +61,9 @@ function Contact() {
     } catch (error) {
       console.error('Submission error:', error);
       setSubmitStatus('error');
-      if (error.response) {
+      if (error.code === 'ECONNABORTED') {
+        setErrorMessage('The server is waking up or taking too long. Please wait a moment and try again.');
+      } else if (error.response) {
         setErrorMessage(error.response.data.message || 'Failed to send message');
       } else if (error.request) {
         setErrorMessage('Network error. Please check your connection and try again.');

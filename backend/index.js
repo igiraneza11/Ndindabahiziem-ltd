@@ -3,15 +3,30 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 require('dotenv').config({ path: './config.env' });
+require('dotenv').config();
 
 const app = express();  
 const port = process.env.PORT || 5000;
 
+const allowedOrigins = [
+  'https://www.ndindabahiziem.com',
+  'https://ndindabahiziem.com',
+  'https://ndindabahiziem-ltd-k4gm.vercel.app',
+  'http://localhost:3000',
+  'http://localhost:4173',
+];
+
 // Middleware
 app.use(bodyParser.json());
 app.use(cors({
-    origin: '*', // Adjust this to your frontend's URL
-    credentials: true
+  origin(origin, callback) {
+    // Allow non-browser clients (no Origin) and known frontends
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error(`CORS blocked for origin: ${origin}`));
+  },
+  credentials: true,
 }));
 
 // Email transporter configuration

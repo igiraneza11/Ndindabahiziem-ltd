@@ -34,7 +34,8 @@ function Contact() {
     setErrorMessage('');
 
     try {
-      const response = await axios.post('http://localhost:5000/api/contact', formData);
+      const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const response = await axios.post(`${apiBase}/api/contact`, formData);
       
       if (response.data.success) {
         setSubmitStatus('success');

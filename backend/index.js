@@ -81,6 +81,8 @@ async function sendWithFormSubmit({ name, email, phone, service, message }) {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
+      Origin: 'https://www.ndindabahiziem.com',
+      Referer: 'https://www.ndindabahiziem.com/contact',
     },
     body: JSON.stringify({
       name,
@@ -94,9 +96,16 @@ async function sendWithFormSubmit({ name, email, phone, service, message }) {
     }),
   });
 
-  const payload = await response.json().catch(() => ({}));
-  if (!response.ok || payload.success === 'false' || payload.error) {
-    const error = new Error(payload.message || payload.error || 'FormSubmit request failed');
+  const rawText = await response.text();
+  let payload = {};
+  try {
+    payload = rawText ? JSON.parse(rawText) : {};
+  } catch {
+    payload = { message: rawText };
+  }
+
+  if (!response.ok || payload.success === 'false' || payload.success === false || payload.error) {
+    const error = new Error(payload.message || payload.error || `FormSubmit failed (${response.status})`);
     error.code = 'FORMSUBMIT_ERROR';
     error.details = payload;
     throw error;

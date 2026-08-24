@@ -271,7 +271,7 @@ function Contact() {
             </div>
             <div className="flex items-center">
               <FaEnvelope className="text-2xl mr-3" />
-              <span className="text-xl font-semibold">bahiziem@gmail.com</span>
+              <span className="text-xl font-semibold">bahizema@gmail.com</span>
             </div>
           </div>
         </div>

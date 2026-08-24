@@ -210,7 +210,7 @@ function Contact() {
                   {isSubmitting ? (
                     <>
                       <FaSpinner className="mr-2 animate-spin" />
-                      Sending...
+                      Sending (may take up to a minute)...
                     </>
                   ) : (
                     <>

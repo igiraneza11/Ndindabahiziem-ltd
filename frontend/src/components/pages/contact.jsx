@@ -40,9 +40,9 @@ function Contact() {
           ? 'https://ndindabahiziem-backend.onrender.com'
           : 'http://localhost:5000');
 
-      // Free Render apps sleep when idle; first request can take ~30–60s.
+      // Keep-alive workflow + warm service should respond within 5s.
       const response = await axios.post(`${apiBase}/api/contact`, formData, {
-        timeout: 60000,
+        timeout: 5000,
       });
       
       if (response.data.success) {
@@ -62,7 +62,7 @@ function Contact() {
       console.error('Submission error:', error);
       setSubmitStatus('error');
       if (error.code === 'ECONNABORTED') {
-        setErrorMessage('The server is waking up or taking too long. Please wait a moment and try again.');
+        setErrorMessage('Server took longer than 5 seconds. Please try again.');
       } else if (error.response) {
         setErrorMessage(error.response.data.message || 'Failed to send message');
       } else if (error.request) {
@@ -210,7 +210,7 @@ function Contact() {
                   {isSubmitting ? (
                     <>
                       <FaSpinner className="mr-2 animate-spin" />
-                      Sending (may take up to a minute)...
+                      Sending...
                     </>
                   ) : (
                     <>

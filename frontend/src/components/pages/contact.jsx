@@ -55,7 +55,7 @@ function Contact() {
           _cc: ownerCc,
           _replyto: formData.email,
           _autoresponse:
-            'Thank you for contacting Ndindabahiziem Ltd. We have received your message and will get back to you soon.',
+            'Thank you for contacting Ndindabahiziem Ltd. Your application/request is under review. Our team will get back to you soon.',
         },
         {
           headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
@@ -131,7 +131,7 @@ function Contact() {
               {/* Success/Error Messages */}
               {submitStatus === 'success' && (
                 <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
-                  <p className="font-medium">Message sent successfully! We will get back to you soon.</p>
+                  <p className="font-medium">Message sent successfully! Your application is under review. We will get back to you soon.</p>
                 </div>
               )}
               

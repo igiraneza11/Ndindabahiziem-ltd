@@ -21,7 +21,7 @@ const ownerEmails = (process.env.OWNER_EMAIL || 'igiranezashalom9@gmail.com')
   .filter(Boolean);
 
 const THANK_YOU_TEXT =
-  'Thank you for contacting Ndindabahiziem Ltd. We have received your message and will get back to you soon.';
+  'Thank you for contacting Ndindabahiziem Ltd. Your application/request is under review. Our team will get back to you soon.';
 
 app.use(bodyParser.json());
 app.use(cors({
@@ -170,7 +170,7 @@ function buildThankYouEmailHtml({ name, email, phone, service, message }) {
       <div style="background: linear-gradient(135deg, #2563eb, #1d4ed8); padding: 30px; text-align: center;">
         <h1 style="color: white; margin: 0; font-size: 28px;">Thank You, ${escapeHtml(name)}!</h1>
         <p style="color: #dbeafe; margin: 10px 0 0 0; font-size: 16px;">
-          We've received your message and will get back to you soon.
+          Your application/request is under review. Our team will get back to you soon.
         </p>
       </div>
       <div style="padding: 30px; background-color: white;">

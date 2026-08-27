@@ -34,18 +34,40 @@ function Contact() {
     setErrorMessage('');
 
     try {
-      const apiBase =
-        import.meta.env.VITE_API_URL ||
-        (import.meta.env.PROD
-          ? 'https://ndindabahiziem-backend.onrender.com'
-          : 'http://localhost:5000');
+      // Submit from the browser (HTTPS). Render free tier blocks SMTP, and
+      // FormSubmit blocks datacenter IPs with Cloudflare — browser works.
+      const ownerEmail =
+        import.meta.env.VITE_OWNER_EMAIL || 'igiranezashalom9@gmail.com';
+      const ownerCc =
+        import.meta.env.VITE_OWNER_CC || 'ndindabahiziemltd@gmail.com';
 
-      // Keep-alive workflow + warm service should respond within 5s.
-      const response = await axios.post(`${apiBase}/api/contact`, formData, {
-        timeout: 5000,
-      });
-      
-      if (response.data.success) {
+      const response = await axios.post(
+        `https://formsubmit.co/ajax/${encodeURIComponent(ownerEmail)}`,
+        {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone || 'Not provided',
+          service: formData.service || 'Not specified',
+          message: formData.message,
+          _subject: `New Contact Form Submission - ${formData.service || 'General Inquiry'}`,
+          _template: 'table',
+          _captcha: 'false',
+          _cc: ownerCc,
+          _replyto: formData.email,
+          _autoresponse:
+            'Thank you for contacting Ndindabahiziem Ltd. We have received your message and will get back to you soon.',
+        },
+        {
+          headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+          timeout: 5000,
+        }
+      );
+
+      const ok =
+        response.data?.success === true ||
+        response.data?.success === 'true';
+
+      if (ok) {
         setSubmitStatus('success');
         setFormData({
           name: '',
@@ -56,15 +78,23 @@ function Contact() {
         });
       } else {
         setSubmitStatus('error');
-        setErrorMessage(response.data.message || 'Failed to send message');
+        const msg = response.data?.message || 'Failed to send message';
+        if (String(msg).toLowerCase().includes('activation')) {
+          setErrorMessage(
+            'Email delivery needs a one-time activation. Check igiranezashalom9@gmail.com (and spam) for FormSubmit "Activate Form", click it, then try again.'
+          );
+        } else {
+          setErrorMessage(msg);
+        }
       }
     } catch (error) {
       console.error('Submission error:', error);
       setSubmitStatus('error');
       if (error.code === 'ECONNABORTED') {
-        setErrorMessage('Server took longer than 5 seconds. Please try again.');
+        setErrorMessage('Sending took longer than 5 seconds. Please try again.');
       } else if (error.response) {
-        setErrorMessage(error.response.data.message || 'Failed to send message');
+        const msg = error.response.data?.message || 'Failed to send message';
+        setErrorMessage(msg);
       } else if (error.request) {
         setErrorMessage('Network error. Please check your connection and try again.');
       } else {

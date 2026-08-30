@@ -7,7 +7,7 @@ function Contact() {
     name: '',
     email: '',
     phone: '',
-    service: '',
+    subject: '',
     message: ''
   });
 
@@ -34,38 +34,9 @@ function Contact() {
     setErrorMessage('');
 
     try {
-      // Submit from the browser (HTTPS). Render free tier blocks SMTP, and
-      // FormSubmit blocks datacenter IPs with Cloudflare — browser works.
-      const ownerEmail =
-        import.meta.env.VITE_OWNER_EMAIL || 'igiranezashalom9@gmail.com';
-      const ownerCc =
-        import.meta.env.VITE_OWNER_CC || 'ndindabahiziemltd@gmail.com';
-
-      const response = await axios.post(
-        `https://formsubmit.co/ajax/${encodeURIComponent(ownerEmail)}`,
-        {
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone || 'Not provided',
-          service: formData.service || 'Not specified',
-          message: formData.message,
-          _subject: `New Contact Form Submission - ${formData.service || 'General Inquiry'}`,
-          _template: 'table',
-          _captcha: 'false',
-          _cc: ownerCc,
-          _replyto: formData.email,
-          _autoresponse:
-            'Thank you for contacting Ndindabahiziem Ltd. Your application/request is under review. Our team will get back to you soon.',
-        },
-        {
-          headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-          timeout: 5000,
-        }
-      );
-
-      const ok =
-        response.data?.success === true ||
-        response.data?.success === 'true';
+      const apiBaseUrl = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+      const response = await axios.post(`${apiBaseUrl}/api/contact`, formData, { timeout: 15000 });
+      const ok = response.data?.success === true;
 
       if (ok) {
         setSubmitStatus('success');
@@ -73,32 +44,25 @@ function Contact() {
           name: '',
           email: '',
           phone: '',
-          service: '',
+          subject: '',
           message: ''
         });
       } else {
         setSubmitStatus('error');
-        const msg = response.data?.message || 'Failed to send message';
-        if (String(msg).toLowerCase().includes('activation')) {
-          setErrorMessage(
-            'Email delivery needs a one-time activation. Check igiranezashalom9@gmail.com (and spam) for FormSubmit "Activate Form", click it, then try again.'
-          );
-        } else {
-          setErrorMessage(msg);
-        }
+        setErrorMessage(response.data?.message || 'Sorry, we could not send your message. Please try again later.');
       }
     } catch (error) {
       console.error('Submission error:', error);
       setSubmitStatus('error');
       if (error.code === 'ECONNABORTED') {
-        setErrorMessage('Sending took longer than 5 seconds. Please try again.');
+        setErrorMessage('Sending took too long. Please try again.');
       } else if (error.response) {
         const msg = error.response.data?.message || 'Failed to send message';
         setErrorMessage(msg);
       } else if (error.request) {
-        setErrorMessage('Network error. Please check your connection and try again.');
+        setErrorMessage('Sorry, we could not send your message. Please try again later.');
       } else {
-        setErrorMessage('An unexpected error occurred. Please try again.');
+        setErrorMessage('Sorry, we could not send your message. Please try again later.');
       }
     } finally {
       setIsSubmitting(false);
@@ -131,7 +95,7 @@ function Contact() {
               {/* Success/Error Messages */}
               {submitStatus === 'success' && (
                 <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
-                  <p className="font-medium">Message sent successfully! Your application is under review. We will get back to you soon.</p>
+                  <p className="font-medium">Your message has been successfully received. A confirmation email has been sent to your email address. We will get back to you soon.</p>
                 </div>
               )}
               
@@ -179,7 +143,7 @@ function Contact() {
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                      Phone Number
+                      Phone Number *
                     </label>
                     <input
                       type="tel"
@@ -194,26 +158,19 @@ function Contact() {
                   </div>
                   <div>
                     <label htmlFor="service" className="block text-sm font-medium text-gray-700 mb-2">
-                      Service Required
+                      Subject *
                     </label>
                     <select
-                      id="service"
-                      name="service"
-                      value={formData.service}
+                      id="subject"
+                      name="subject"
+                      value={formData.subject}
                       onChange={handleChange}
+                      required
                       disabled={isSubmitting}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
-                    >
-                      <option value="">Select a service</option>
-                      <option value="medical">Supply and Maintain Medical Equipment</option>
-                      <option value="electrical">Electrical Installations</option>
-                      <option value="refrigeration">Refrigeration & AC</option>
-                      <option value="construction">Construction Projects</option>
-                      <option value="cctv">CCTV Installation</option>
-                      <option value="plumbing">Plumbing Services</option>
-                      <option value="machinery">Machinery Repair</option>
-                      <option value="other">Other</option>
-                    </select>
+                    
+                      placeholder="What can we help with?"
+                    />
                   </div>
                 </div>
                 <div>
@@ -271,7 +228,7 @@ function Contact() {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-800 mb-1">Email</h3>
-                    <p className="text-gray-600">bahizema@gmail.com</p>
+                    <p className="text-gray-600">bahizema@ndindabahiziem.com</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
@@ -307,7 +264,7 @@ function Contact() {
             </div>
             <div className="flex items-center">
               <FaEnvelope className="text-2xl mr-3" />
-              <span className="text-xl font-semibold">bahizema@gmail.com</span>
+              <span className="text-xl font-semibold">bahizema@ndindabahiziem.com</span>
             </div>
           </div>
         </div>

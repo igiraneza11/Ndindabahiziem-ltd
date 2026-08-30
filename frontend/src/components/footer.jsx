@@ -69,7 +69,7 @@ function Footer() {
                </div>
                <div className="flex items-center space-x-3">
                  <FaEnvelope className="text-gray-400" />
-                 <span>bahizema@gmail.com</span>
+                 <span>bahizema@ndindabahiziem.com</span>
                </div>
                <div className="flex items-start space-x-3">
                  <FaMapMarkerAlt className="text-gray-400 mt-1" />

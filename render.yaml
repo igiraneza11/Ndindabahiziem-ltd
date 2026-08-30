@@ -8,13 +8,23 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      - key: EMAIL_HOST
+      - key: SMTP_HOST
         value: smtp.gmail.com
-      - key: EMAIL_PORT
+      - key: SMTP_PORT
         value: "587"
-      - key: OWNER_EMAIL
+      - key: SMTP_SECURE
+        value: "false"
+      - key: SMTP_USER
         sync: false
-      - key: RESEND_API_KEY
+      - key: SMTP_PASSWORD
         sync: false
-      - key: EMAIL_FROM
+      - key: SMTP_FROM
         sync: false
+      - key: COMPANY_EMAIL
+        sync: false
+      - key: COMPANY_NAME
+        value: Ndindabahiziem Ltd
+      - key: COMPANY_PHONE
+        value: "+250 782 177 952"
+      - key: COMPANY_WEBSITE
+        value: https://www.ndindabahiziem.com

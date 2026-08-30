@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const nodemailer = require('nodemailer');
 require('dotenv').config({ path: './config.env' });
 require('dotenv').config();
 
@@ -22,6 +23,74 @@ const ownerEmails = (process.env.OWNER_EMAIL || 'igiranezashalom9@gmail.com')
 
 const THANK_YOU_TEXT =
   'Thank you for contacting Ndindabahiziem Ltd. Your application/request is under review. Our team will get back to you soon.';
+
+const companyEmail = process.env.COMPANY_EMAIL || ownerEmails[0];
+const companyName = process.env.COMPANY_NAME || 'Ndindabahiziem Ltd';
+const companyPhone = process.env.COMPANY_PHONE || '+250 782 177 952';
+const companyWebsite = process.env.COMPANY_WEBSITE || 'https://www.ndindabahiziem.com';
+const requestCounts = new Map();
+
+function cleanInput(value, maxLength) {
+  return String(value || '')
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '')
+    .trim()
+    .slice(0, maxLength);
+}
+
+function validateContact(body = {}) {
+  const contact = {
+    name: cleanInput(body.name, 120),
+    email: cleanInput(body.email, 254).toLowerCase(),
+    phone: cleanInput(body.phone, 40),
+    subject: cleanInput(body.subject, 160),
+    message: cleanInput(body.message, 5000),
+  };
+  const errors = {};
+  if (!contact.name) errors.name = 'Full name is required.';
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email)) errors.email = 'A valid email address is required.';
+  if (!contact.phone) errors.phone = 'Phone number is required.';
+  if (!contact.subject) errors.subject = 'Subject is required.';
+  if (!contact.message) errors.message = 'Message is required.';
+  return { contact, errors };
+}
+
+function isRateLimited(req) {
+  const key = req.ip || req.socket.remoteAddress || 'unknown';
+  const now = Date.now();
+  const recent = (requestCounts.get(key) || []).filter((time) => now - time < 900000);
+  recent.push(now);
+  requestCounts.set(key, recent);
+  return recent.length > 5;
+}
+
+function createSmtpTransporter() {
+  const host = process.env.SMTP_HOST || process.env.EMAIL_HOST;
+  const user = process.env.SMTP_USER || process.env.EMAIL_USER;
+  const password = process.env.SMTP_PASSWORD || process.env.EMAIL_PASS;
+  if (!host || !user || !password || !companyEmail) {
+    const error = new Error('SMTP configuration is incomplete');
+    error.code = 'EMAIL_NOT_CONFIGURED';
+    throw error;
+  }
+  return nodemailer.createTransport({
+    host,
+    port: Number(process.env.SMTP_PORT || process.env.EMAIL_PORT || 587),
+    secure: String(process.env.SMTP_SECURE).toLowerCase() === 'true',
+    auth: { user, pass: password },
+  });
+}
+
+function emailLayout(title, content) {
+  return `<div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;color:#1f2937;line-height:1.6"><header style="background:#0f766e;padding:28px 32px;color:#fff"><h1 style="margin:0;font-size:24px">${escapeHtml(companyName)}</h1><p style="margin:6px 0 0">${escapeHtml(title)}</p></header><main style="padding:28px 32px;background:#fff">${content}</main><footer style="padding:20px 32px;background:#f0fdfa;color:#475569;font-size:13px">${escapeHtml(companyName)}<br>${escapeHtml(companyPhone)} | ${escapeHtml(companyEmail)}<br>${escapeHtml(companyWebsite)}</footer></div>`;
+}
+
+function buildCompanyHtml(contact) {
+  return emailLayout('New message/application received', `<p>A new message/application has been submitted through the website.</p><dl><dt><strong>Name</strong></dt><dd>${escapeHtml(contact.name)}</dd><dt><strong>Email</strong></dt><dd>${escapeHtml(contact.email)}</dd><dt><strong>Phone</strong></dt><dd>${escapeHtml(contact.phone)}</dd><dt><strong>Subject</strong></dt><dd>${escapeHtml(contact.subject)}</dd></dl><h3>Message</h3><div style="white-space:pre-wrap;background:#f8fafc;border-left:4px solid #0f766e;padding:16px">${escapeHtml(contact.message)}</div><p>Please review the message and respond to the user when appropriate.</p>`);
+}
+
+function buildConfirmationHtml(contact) {
+  return emailLayout('We received your message/application', `<p>Dear ${escapeHtml(contact.name)},</p><p>Thank you for contacting us.</p><p>We are pleased to confirm that we have successfully received your message/application. Our team will review your request and get back to you as soon as possible.</p><h3>Your submitted information</h3><p><strong>Subject:</strong> ${escapeHtml(contact.subject)}</p><p><strong>Message:</strong></p><div style="white-space:pre-wrap;background:#f8fafc;border-left:4px solid #0f766e;padding:16px">${escapeHtml(contact.message)}</div><p>We appreciate your interest and patience.</p><p>Best regards,<br>${escapeHtml(companyName)}<br>${escapeHtml(companyEmail)}<br>${escapeHtml(companyPhone)}<br>${escapeHtml(companyWebsite)}</p>`);
+}
 
 app.use(bodyParser.json());
 app.use(cors({
@@ -219,64 +288,52 @@ async function deliverEmails(payload) {
 }
 
 app.post('/api/contact', async (req, res) => {
+  if (isRateLimited(req)) {
+    return res.status(429).json({ success: false, message: 'Too many messages. Please try again later.' });
+  }
+
+  const { contact, errors } = validateContact(req.body);
+  if (Object.keys(errors).length > 0) {
+    return res.status(400).json({ success: false, message: 'Please correct the highlighted fields.', errors });
+  }
+
   try {
-    const { name, email, phone, service, message } = req.body;
+    const transporter = createSmtpTransporter();
+    const from = process.env.SMTP_FROM || `"${companyName}" <${process.env.SMTP_USER || process.env.EMAIL_USER}>`;
 
-    if (!name || !email || !message) {
-      return res.status(400).json({
+    await transporter.sendMail({
+      from,
+      to: companyEmail,
+      replyTo: contact.email,
+      subject: `New Message/Application Received from ${contact.name}`,
+      html: buildCompanyHtml(contact),
+      text: `New message/application received\n\nName: ${contact.name}\nEmail: ${contact.email}\nPhone: ${contact.phone}\nSubject: ${contact.subject}\n\nMessage:\n${contact.message}`,
+    });
+
+    try {
+      await transporter.sendMail({
+        from,
+        to: contact.email,
+        subject: 'We Received Your Message/Application',
+        html: buildConfirmationHtml(contact),
+        text: `Dear ${contact.name},\n\nThank you for contacting us. We have successfully received your message/application and will respond as soon as possible.\n\nSubject: ${contact.subject}\nMessage:\n${contact.message}\n\nBest regards,\n${companyName}\n${companyEmail}\n${companyPhone}\n${companyWebsite}`,
+      });
+    } catch (confirmationError) {
+      console.error('Confirmation email failed after company notification succeeded:', confirmationError.message);
+      return res.status(502).json({
         success: false,
-        message: 'Name, email, and message are required fields',
+        companyReceived: true,
+        message: 'Your message reached the company, but we could not send the confirmation email. Please verify your email address.',
       });
     }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Please provide a valid email address',
-      });
-    }
-
-    // Keep total email work under ~4s so the API can respond within 5s.
-    await withTimeout(
-      deliverEmails({ name, email, phone, service, message, req }),
-      4000,
-      'Email delivery'
-    );
 
     return res.status(200).json({
       success: true,
-      message: 'Message sent successfully! We will get back to you soon.',
+      message: 'Your message has been successfully received. A confirmation email has been sent to your email address. We will get back to you soon.',
     });
   } catch (error) {
-    console.error('Email sending error:', error);
-
-    if (error.code === 'NO_EMAIL_PROVIDER') {
-      return res.status(503).json({
-        success: false,
-        message: 'Email service is not configured yet. Please try again later.',
-      });
-    }
-
-    if (error.code === 'FORMSUBMIT_ACTIVATION') {
-      return res.status(502).json({
-        success: false,
-        message:
-          'Email delivery needs a one-time activation. Check igiranezashalom9@gmail.com (and spam) for the FormSubmit "Activate Form" link, click it, then submit again.',
-      });
-    }
-
-    if (error.code === 'EMAIL_TIMEOUT') {
-      return res.status(504).json({
-        success: false,
-        message: 'Email service took too long. Please try again in a few seconds.',
-      });
-    }
-
-    return res.status(500).json({
-      success: false,
-      message: 'Failed to send message. Please try again later.',
-    });
+    console.error('Company notification email failed:', error.message);
+    return res.status(error.code === 'EMAIL_NOT_CONFIGURED' ? 503 : 502).json({ success: false, message: 'Sorry, we could not send your message. Please try again later.' });
   }
 });
 

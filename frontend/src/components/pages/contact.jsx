@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaTwitter, FaFacebook, FaInstagram, FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock, FaPaperPlane, FaSpinner } from 'react-icons/fa';
+import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock, FaPaperPlane, FaSpinner } from 'react-icons/fa';
 import axios from 'axios';
 
 function Contact() {
@@ -168,9 +168,17 @@ function Contact() {
                       required
                       disabled={isSubmitting}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
-                    
-                      placeholder="What can we help with?"
-                    />
+                    >
+                      <option value="">Select a service</option>
+                      <option value="medical">Supply and Maintain Medical Equipment</option>
+                      <option value="electrical">Electrical Installations</option>
+                      <option value="refrigeration">Refrigeration & AC</option>
+                      <option value="construction">Construction Projects</option>
+                      <option value="cctv">CCTV Installation</option>
+                      <option value="plumbing">Plumbing Services</option>
+                      <option value="machinery">Machinery Repair</option>
+                      <option value="other">Other</option>
+                    </select>
                   </div>
                 </div>
                 <div>

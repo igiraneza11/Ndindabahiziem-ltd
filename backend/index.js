@@ -63,15 +63,29 @@ function isRateLimited(req) {
   return recent.length > 5;
 }
 
+function resolveDeliveryStrategy(env = process.env) {
+  if (env.RESEND_API_KEY) return 'resend';
+
+  const host = env.SMTP_HOST || env.EMAIL_HOST;
+  const user = env.SMTP_USER || env.EMAIL_USER;
+  const password = env.SMTP_PASSWORD || env.EMAIL_PASS;
+
+  if (host && user && password && (companyEmail || env.COMPANY_EMAIL || env.OWNER_EMAIL)) {
+    return 'smtp';
+  }
+
+  return 'formsubmit';
+}
+
 function createSmtpTransporter() {
   const host = process.env.SMTP_HOST || process.env.EMAIL_HOST;
   const user = process.env.SMTP_USER || process.env.EMAIL_USER;
   const password = process.env.SMTP_PASSWORD || process.env.EMAIL_PASS;
-  if (!host || !user || !password || !companyEmail) {
-    const error = new Error('SMTP configuration is incomplete');
-    error.code = 'EMAIL_NOT_CONFIGURED';
-    throw error;
+
+  if (resolveDeliveryStrategy() !== 'smtp' || !host || !user || !password || !companyEmail) {
+    return null;
   }
+
   return nodemailer.createTransport({
     host,
     port: Number(process.env.SMTP_PORT || process.env.EMAIL_PORT || 587),
@@ -299,6 +313,22 @@ app.post('/api/contact', async (req, res) => {
 
   try {
     const transporter = createSmtpTransporter();
+
+    if (!transporter) {
+      await sendWithFormSubmit({
+        name: contact.name,
+        email: contact.email,
+        phone: contact.phone,
+        service: contact.subject,
+        message: contact.message,
+      });
+
+      return res.status(200).json({
+        success: true,
+        message: 'Your message has been successfully received. We will get back to you soon.',
+      });
+    }
+
     const from = process.env.SMTP_FROM || `"${companyName}" <${process.env.SMTP_USER || process.env.EMAIL_USER}>`;
 
     await transporter.sendMail({
@@ -346,11 +376,18 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-  console.log(`Contact form endpoint: /api/contact`);
-  console.log(`Owner emails: ${ownerEmails.join(', ')}`);
-  console.log(
-    `Email provider: ${process.env.RESEND_API_KEY ? 'resend' : 'formsubmit-https'}`
-  );
-});
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+    console.log(`Contact form endpoint: /api/contact`);
+    console.log(`Owner emails: ${ownerEmails.join(', ')}`);
+    console.log(
+      `Email provider: ${resolveDeliveryStrategy()}`
+    );
+  });
+}
+
+module.exports = {
+  app,
+  resolveDeliveryStrategy,
+};

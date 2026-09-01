@@ -34,7 +34,19 @@ function Contact() {
     setErrorMessage('');
 
     try {
-      const apiBaseUrl = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+      const backendUrlByHost = {
+        'www.ndindabahiziem.com': 'https://ndindabahiziem-backend.onrender.com',
+        'ndindabahiziem.com': 'https://ndindabahiziem-backend.onrender.com',
+        'ndindabahiziem-ltd-k4gm.vercel.app': 'https://ndindabahiziem-backend.onrender.com',
+        'localhost': 'http://localhost:5000',
+      };
+
+      const apiBaseUrl = (
+        import.meta.env.VITE_API_URL ||
+        backendUrlByHost[window.location.hostname] ||
+        window.location.origin
+      ).replace(/\/$/, '');
+
       const response = await axios.post(`${apiBaseUrl}/api/contact`, formData, { timeout: 15000 });
       const ok = response.data?.success === true;
 

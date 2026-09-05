@@ -29,6 +29,7 @@ const companyName = process.env.COMPANY_NAME || 'Ndindabahiziem Ltd';
 const companyPhone = process.env.COMPANY_PHONE || '+250 782 177 952';
 const companyWebsite = process.env.COMPANY_WEBSITE || 'https://www.ndindabahiziem.com';
 const requestCounts = new Map();
+const FORM_SUBMIT_TIMEOUT_MS = 12000;
 
 function cleanInput(value, maxLength) {
   return String(value || '')
@@ -175,28 +176,44 @@ async function sendWithFormSubmit({ name, email, phone, service, message }) {
 
   const ccOwners = ownerEmails.slice(1).join(', ');
 
-  const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(target)}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Origin: 'https://www.ndindabahiziem.com',
-      Referer: 'https://www.ndindabahiziem.com/contact',
-    },
-    body: JSON.stringify({
-      name,
-      email,
-      phone: phone || 'Not provided',
-      service: service || 'Not specified',
-      message,
-      _subject: `New Contact Form Submission - ${service || 'General Inquiry'}`,
-      _template: 'table',
-      _captcha: 'false',
-      _cc: ccOwners || undefined,
-      _replyto: email,
-      _autoresponse: THANK_YOU_TEXT,
-    }),
-  });
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), FORM_SUBMIT_TIMEOUT_MS);
+  let response;
+
+  try {
+    response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(target)}`, {
+      method: 'POST',
+      signal: controller.signal,
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Origin: 'https://www.ndindabahiziem.com',
+        Referer: 'https://www.ndindabahiziem.com/contact',
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        phone: phone || 'Not provided',
+        service: service || 'Not specified',
+        message,
+        _subject: `New Contact Form Submission - ${service || 'General Inquiry'}`,
+        _template: 'table',
+        _captcha: 'false',
+        _cc: ccOwners || undefined,
+        _replyto: email,
+        _autoresponse: THANK_YOU_TEXT,
+      }),
+    });
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      const timeoutError = new Error('FormSubmit request timed out');
+      timeoutError.code = 'EMAIL_TIMEOUT';
+      throw timeoutError;
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeout);
+  }
 
   const rawText = await response.text();
   let payload = {};
@@ -367,11 +384,18 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
+app.get('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Ndindabahiziem backend is running. Use /api/health to check service health.',
+  });
+});
+
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     success: true,
     message: 'Server is running',
-    emailProvider: process.env.RESEND_API_KEY ? 'resend' : 'formsubmit',
+    emailProvider: resolveDeliveryStrategy(),
     timestamp: new Date().toISOString(),
   });
 });

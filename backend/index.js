@@ -84,7 +84,7 @@ function resolveDeliveryStrategy(env = process.env) {
 function createSmtpTransporter() {
   const host = process.env.SMTP_HOST;
   const user = process.env.SMTP_USER;
-  const password = process.env.SMTP_PASSWORD;
+  const password = String(process.env.SMTP_PASSWORD || '').replace(/\s/g, '');
 
   if (resolveDeliveryStrategy() !== 'smtp' || !host || !user || !password || !companyEmail) {
     return null;
@@ -94,6 +94,9 @@ function createSmtpTransporter() {
     host,
     port: Number(process.env.SMTP_PORT || process.env.EMAIL_PORT || 587),
     secure: String(process.env.SMTP_SECURE).toLowerCase() === 'true',
+    connectionTimeout: FORM_SUBMIT_TIMEOUT_MS,
+    greetingTimeout: FORM_SUBMIT_TIMEOUT_MS,
+    socketTimeout: FORM_SUBMIT_TIMEOUT_MS,
     auth: { user, pass: password },
   });
 }
@@ -383,7 +386,12 @@ app.post('/api/contact', async (req, res) => {
     });
   } catch (error) {
     console.error('Company notification email failed:', error.message);
-    return res.status(error.code === 'EMAIL_NOT_CONFIGURED' ? 503 : 502).json({ success: false, message: 'Sorry, we could not send your message. Please try again later.' });
+    const message = error.code === 'EMAIL_TIMEOUT'
+      ? 'The email service took too long to respond. Please try again shortly.'
+      : error.code === 'EAUTH'
+        ? 'The email service rejected the sender credentials. Please contact the site administrator.'
+        : 'The email service could not accept the message. Please try again shortly.';
+    return res.status(error.code === 'EMAIL_NOT_CONFIGURED' ? 503 : 502).json({ success: false, message });
   }
 });
 

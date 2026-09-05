@@ -2,8 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
-require('dotenv').config({ path: './config.env' });
 require('dotenv').config();
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config({ path: './config.env' });
+}
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -67,9 +70,9 @@ function isRateLimited(req) {
 function resolveDeliveryStrategy(env = process.env) {
   if (env.RESEND_API_KEY) return 'resend';
 
-  const host = env.SMTP_HOST || env.EMAIL_HOST;
-  const user = env.SMTP_USER || env.EMAIL_USER;
-  const password = env.SMTP_PASSWORD || env.EMAIL_PASS;
+  const host = env.SMTP_HOST;
+  const user = env.SMTP_USER;
+  const password = env.SMTP_PASSWORD;
 
   if (host && user && password && (companyEmail || env.COMPANY_EMAIL || env.OWNER_EMAIL)) {
     return 'smtp';
@@ -79,9 +82,9 @@ function resolveDeliveryStrategy(env = process.env) {
 }
 
 function createSmtpTransporter() {
-  const host = process.env.SMTP_HOST || process.env.EMAIL_HOST;
-  const user = process.env.SMTP_USER || process.env.EMAIL_USER;
-  const password = process.env.SMTP_PASSWORD || process.env.EMAIL_PASS;
+  const host = process.env.SMTP_HOST;
+  const user = process.env.SMTP_USER;
+  const password = process.env.SMTP_PASSWORD;
 
   if (resolveDeliveryStrategy() !== 'smtp' || !host || !user || !password || !companyEmail) {
     return null;
@@ -348,23 +351,23 @@ app.post('/api/contact', async (req, res) => {
 
     const from = process.env.SMTP_FROM || `"${companyName}" <${process.env.SMTP_USER || process.env.EMAIL_USER}>`;
 
-    await transporter.sendMail({
+    await withTimeout(transporter.sendMail({
       from,
       to: companyEmail,
       replyTo: contact.email,
       subject: `New Message/Application Received from ${contact.name}`,
       html: buildCompanyHtml(contact),
       text: `New message/application received\n\nName: ${contact.name}\nEmail: ${contact.email}\nPhone: ${contact.phone}\nSubject: ${contact.subject}\n\nMessage:\n${contact.message}`,
-    });
+    }), FORM_SUBMIT_TIMEOUT_MS, 'SMTP notification');
 
     try {
-      await transporter.sendMail({
+      await withTimeout(transporter.sendMail({
         from,
         to: contact.email,
         subject: 'We Received Your Message/Application',
         html: buildConfirmationHtml(contact),
         text: `Dear ${contact.name},\n\nThank you for contacting us. We have successfully received your message/application and will respond as soon as possible.\n\nSubject: ${contact.subject}\nMessage:\n${contact.message}\n\nBest regards,\n${companyName}\n${companyEmail}\n${companyPhone}\n${companyWebsite}`,
-      });
+      }), FORM_SUBMIT_TIMEOUT_MS, 'SMTP confirmation');
     } catch (confirmationError) {
       console.error('Confirmation email failed after company notification succeeded:', confirmationError.message);
       return res.status(502).json({
